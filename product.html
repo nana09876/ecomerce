@@ -9,7 +9,8 @@
     <script>
         function searchProducts() {
             const query = document.getElementById('search').value;
-            fetch('http://localhost/ecomerce/search_products.php?search=' + encodeURIComponent(query))
+            fetch('/api/search_products.php?search=' + encodeURIComponent(query))
+
                 .then(response => {
                     console.log('Response:', response); // Tambahkan log ini untuk debugging
                     if (!response.ok) {
