@@ -1,12 +1,26 @@
 <?php
+// Mengaktifkan error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Mengaktifkan logging dan mengatur path untuk log error
+ini_set('log_errors', 1);
+ini_set('error_log', '/path/to/your/error.log'); // Ganti dengan path yang sesuai di server Anda
+
+error_log("Script started");
+
 header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: X-Requested-With, Content-Type");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    error_log("OPTIONS request received");
     exit(0);
 }
+
+error_log("Processing GET request");
 
 // Produk yang tersedia
 $products = [
@@ -55,13 +69,19 @@ $products = [
     // tambahkan produk lain sesuai kebutuhan
 ];
 
+error_log("Products array initialized");
+
 // Ambil parameter search
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
+error_log("Search query: " . $searchQuery);
 
 // Filter produk berdasarkan query search
 $filteredProducts = array_filter($products, function ($product) use ($searchQuery) {
     return stripos($product['name'], $searchQuery) !== false;
 });
 
+error_log("Filtered products: " . json_encode($filteredProducts));
+
 // Kembalikan hasil dalam format JSON
 echo json_encode(array_values($filteredProducts));
+?>
